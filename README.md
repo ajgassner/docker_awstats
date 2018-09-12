@@ -11,7 +11,7 @@ Quickstart
 ----------
 
 ```bash
-# start the container
+# start the container, e.g.
 docker run \
     --detach \
     --restart always \
@@ -19,7 +19,12 @@ docker run \
     --name awstats \
     --volume /var/log/nginx:/var/local/log:ro \
     --volume /var/lib/awstats:/var/lib/awstats \
-    pabra/awstats
+    -e AWSTATS_CONF_LOGFILE="/var/local/log/access.log" \
+    -e AWSTATS_CONF_LOGFORMAT "%host %other %logname %time1 %methodurl %code %bytesd %refererquot %uaquot" \
+    -e AWSTATS_CONF_SITEDOMAIN "my_website" \
+    -e AWSTATS_CONF_HOSTALIASES "localhost 127.0.0.1 REGEX[^.*$]" \
+    -e AWSTATS_CONF_SKIPHOSTS "" \
+    ajgassner/awstats
 
 # ensure awstats can read your logs
 docker exec awstats awstats_updateall.pl now
@@ -31,7 +36,7 @@ Add this line to your `/etc/crontab` to let Awstats analyze your logs every 10 m
 ```
 */10 * * * * root docker exec awstats awstats_updateall.pl now > /dev/null
 ```
-
+You can use [Ofelia](https://github.com/mcuadros/ofelia) to setup the cronjob with Docker.
 
 Advanced
 ========
