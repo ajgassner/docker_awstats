@@ -1,6 +1,6 @@
-FROM httpd:2.4.33-alpine
+FROM httpd:2.4.34-alpine
 
-ENV AWSTATS_VERSION 7.6-r2
+ENV AWSTATS_VERSION 7.7
 
 RUN apk add --no-cache awstats=${AWSTATS_VERSION} gettext \
     && echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories \
